@@ -1,7 +1,7 @@
 const request = require('supertest');
 
 const obterToken = async (usuario, senha) =>{
-    //Capturar o token
+    //Capturar o token passando parametros
         const respostaLogin = await request (process.env.BASE_URL)
             .post('/login')
             .set('Content-Type','application/json')
@@ -9,10 +9,11 @@ const obterToken = async (usuario, senha) =>{
                 'username': usuario,
                 'senha': senha
             })
-        //Resultado da autenticação
+        //Retornando resultado da autenticação
         return respostaLogin.body.token  
 }
 
+// Exportando a função para ficar visivel no projeto
 module.exports = {
     obterToken
 }
