@@ -17,16 +17,6 @@ describe('Login', () => {
             expect(resposta.body.token).to.be.a('string');
         })
 
-        it('Deve retornar 400 quando a requisição não enviar username e senha', async () => {
-            const resposta = await request(process.env.BASE_URL)
-                .post('/login')
-                .set('Content-Type', 'application/json')
-                .send({})
-
-            expect(resposta.status).to.equal(400);
-            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
-        })
-
         it('Deve retornar 401 quando usar username e senha inválidos', async () => {
             const bodyLogin = {
                 username: 'usuario-invalido',
@@ -70,6 +60,74 @@ describe('Login', () => {
 
             expect(resposta.status).to.equal(401);
             expect(resposta.body.error).to.equal('Usuário ou senha inválidos.');
+        })
+
+         it('Deve retornar 400 quando a requisição não enviar username e senha', async () => {
+            const resposta = await request(process.env.BASE_URL)
+                .post('/login')
+                .set('Content-Type', 'application/json')
+                .send({})
+
+            expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
+        })
+
+        it('Deve retornar 400 quando informar username válido e senha ausente', async () => {
+            const bodyLogin = {
+                username: postLogin.username
+            }
+
+            const resposta = await request(process.env.BASE_URL)
+                .post('/login')
+                .set('Content-Type', 'application/json')
+                .send(bodyLogin)
+
+            expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
+        })
+
+        it('Deve retornar 400 quando informar username ausente e senha preenchida', async () => {
+            const bodyLogin = {
+                senha: postLogin.senha
+            }
+
+            const resposta = await request(process.env.BASE_URL)
+                .post('/login')
+                .set('Content-Type', 'application/json')
+                .send(bodyLogin)
+
+            expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
+        })
+
+        it('Deve retornar 400 quando informar username vazio e senha válida', async () => {
+            const bodyLogin = {
+                username: '',
+                senha: postLogin.senha
+            }
+
+            const resposta = await request(process.env.BASE_URL)
+                .post('/login')
+                .set('Content-Type', 'application/json')
+                .send(bodyLogin)
+
+            expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
+        })
+
+        it('Deve retornar 400 quando informar username válido e senha vazia', async () => {
+            const bodyLogin = {
+                username: postLogin.username,
+                senha: ''
+            }
+
+            const resposta = await request(process.env.BASE_URL)
+                .post('/login')
+                .set('Content-Type', 'application/json')
+                .send(bodyLogin)
+
+            expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
         })
 
         it('Deve retornar 405 quando usar um método diferente de POST', async () => {
