@@ -24,6 +24,7 @@ describe('Login', () => {
                 .send({})
 
             expect(resposta.status).to.equal(400);
+            expect(resposta.body.error).to.equal('Usuário e senha são obrigatórios.');
         })
 
         it('Deve retornar 401 quando usar username e senha inválidos', async () => {
@@ -38,6 +39,7 @@ describe('Login', () => {
                 .send(bodyLogin)
 
             expect(resposta.status).to.equal(401);
+            expect(resposta.body.error).to.equal('Usuário ou senha inválidos.');
         })
 
         it('Deve retornar 401 quando usar username válido e senha inválida', async () => {
@@ -52,6 +54,7 @@ describe('Login', () => {
                 .send(bodyLogin)
 
             expect(resposta.status).to.equal(401);
+            expect(resposta.body.error).to.equal('Usuário ou senha inválidos.');
         })
 
         it('Deve retornar 401 quando usar username e senha inexistentes', async () => {
@@ -66,6 +69,7 @@ describe('Login', () => {
                 .send(bodyLogin)
 
             expect(resposta.status).to.equal(401);
+            expect(resposta.body.error).to.equal('Usuário ou senha inválidos.');
         })
 
         it('Deve retornar 405 quando usar um método diferente de POST', async () => {
@@ -74,6 +78,7 @@ describe('Login', () => {
                 .set('Content-Type', 'application/json')
 
             expect(resposta.status).to.equal(405);
+            expect(resposta.body.error).to.equal('Método não permitido.');
         })
     })
 })
