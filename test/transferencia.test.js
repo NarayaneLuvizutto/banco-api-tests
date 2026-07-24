@@ -48,7 +48,12 @@ describe ('Transferências', () => {
             
                 console.log(resposta.status)
                 console.log(resposta.body)
-
+                expect(resposta.status).to.equal(200)
+                expect(resposta.body.id).to.equal(2)
+                expect(resposta.body.id).to.be.a('number')
+                expect(resposta.body.conta_origem_id).to.equal(1)
+                expect(resposta.body.conta_destino_id).to.equal(2)
+                expect(resposta.body.valor).to.equal('11.00')
         })
     })
 })
